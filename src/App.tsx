@@ -18,9 +18,9 @@ function App(): JSX.Element {
     a.name > b.name ? 1 : -1
   );
   const [name, setName] = useState("");
-  const [nameList, setNameList] = useState<string[]>([])
+  const [nameList, setNameList] = useState<BabyNames[]>([])
 
-  const handleChoseName = (clickedName: string) => {
+  const handleChoseName = (clickedName: BabyNames) => {
     setNameList([...nameList,clickedName]);
   };
 
@@ -31,21 +31,28 @@ function App(): JSX.Element {
   return (
     <body>
       <div className="main">
-        <>Chosen names:{nameList+', '}</>
+        <>Chosen names:{nameList.map((chosenName) => {
+        return (
+          <button
+              className={isMale(chosenName.sex) ? "blue" : "pink"}
+              key={chosenName.id}
+            >{chosenName.name}</button>
+        )
+        })}</>
       </div>
 
       <br></br>
 
       <div className="main">
         All names:
-        {sortedNames.map((el) => {
+        {sortedNames.map((nameFromSorted) => {
           return (
             <button
-              className={isMale(el.sex) ? "blue" : "pink"}
-              onClick={() => handleChoseName(el.name)}
-              key={el.id}
+              className={isMale(nameFromSorted.sex) ? "blue" : "pink"}
+              onClick={() => handleChoseName(nameFromSorted)}
+              key={nameFromSorted.id}
             >
-              {el.name}
+              {nameFromSorted.name}
             </button>
           );
         })}
