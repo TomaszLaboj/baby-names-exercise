@@ -24,7 +24,7 @@ function App(): JSX.Element {
   };
 
   const isMale = (checkSex: string) => {
-    return checkSex == "m" ? true : false;
+    return checkSex === "m" ? true : false;
   };
 
   return (
