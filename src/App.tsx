@@ -17,7 +17,7 @@ function App(): JSX.Element {
   const sortedNames: BabyNames[] = babyNames.sort((a, b) =>
     a.name > b.name ? 1 : -1
   );
-  const [name, setName] = useState("");
+  
   const [nameList, setNameList] = useState<BabyNames[]>([])
 
   const handleChoseName = (clickedName: BabyNames) => {
