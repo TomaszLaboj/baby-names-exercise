@@ -37,7 +37,7 @@ function App(): JSX.Element {
 
       <div className="main">
         All names:
-        {babyNames.map((el) => {
+        {sortedNames.map((el) => {
           return (
             <button
               className={isMale(el.sex) ? "blue" : "pink"}
