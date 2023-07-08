@@ -18,9 +18,10 @@ function App(): JSX.Element {
     a.name > b.name ? 1 : -1
   );
   const [name, setName] = useState("");
+  const [nameList, setNameList] = useState<string[]>([])
 
   const handleChoseName = (clickedName: string) => {
-    setName(clickedName);
+    setNameList([...nameList,clickedName]);
   };
 
   const isMale = (checkSex: string) => {
@@ -30,7 +31,7 @@ function App(): JSX.Element {
   return (
     <body>
       <div className="main">
-        <>Chosen names:{name}</>
+        <>Chosen names:{nameList+', '}</>
       </div>
 
       <br></br>
