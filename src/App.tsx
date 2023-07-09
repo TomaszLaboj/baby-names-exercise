@@ -15,10 +15,18 @@ function App():JSX.Element{
   for (const element of names) {
     babyNames.push(element);
   }
-  const sortedNames: BabyNames[] = babyNames.sort((a, b) =>
+  let sortedNames: BabyNames[] = babyNames.sort((a, b) =>
     a.name > b.name ? 1 : -1
   );
-  
+  let filteredNames:BabyNames[]= [];
+  function filterNames(textToFind:string): BabyNames[] {
+          filteredNames = sortedNames.filter((record)=>record.name.includes(textToFind))
+  return filteredNames;
+  }
+
+
+  filterNames('');
+  sortedNames = filteredNames;
   const [nameList, setNameList] = useState<BabyNames[]>([])
 
   const handleChoseName = (clickedName: BabyNames) => {
@@ -68,11 +76,15 @@ function App():JSX.Element{
 
 function SearchBar(): JSX.Element {
 
-  const [typedMessage, setTypedMessage] = useState('')
+  const [text , setText] = useState('')
+
+  
 
   return (
-      <input value="" onChange={(event) => {
-        setTypedMessage(event.target.value)}}/>
+      <input value={text} onChange={(event) => {
+        setText(event.target.value);
+        
+      }}/>
   ) 
 }
 
