@@ -2,6 +2,7 @@ import "./myStyles.css";
 import names from "./data/babyNamesData.json";
 import { useState } from "react";
 
+
 function App():JSX.Element{
   interface BabyNames {
     id: number;
@@ -30,6 +31,7 @@ function App():JSX.Element{
 
   return (
     <body>
+      
       <div className="main">
         <>Chosen names:{nameList.map((chosenName) => {
         return (
@@ -41,6 +43,9 @@ function App():JSX.Element{
         })}</>
       </div>
 
+      <br></br>
+
+      <p className="main">  Filter: <SearchBar/> </p>
       <br></br>
 
       <div className="main">
@@ -59,6 +64,16 @@ function App():JSX.Element{
       </div>
     </body>
   );
+}
+
+function SearchBar(): JSX.Element {
+
+  const [typedMessage, setTypedMessage] = useState('')
+
+  return (
+      <input value="" onChange={(event) => {
+        setTypedMessage(event.target.value)}}/>
+  ) 
 }
 
 export default App;
