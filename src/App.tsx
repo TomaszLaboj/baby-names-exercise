@@ -2,7 +2,7 @@ import "./myStyles.css";
 import names from "./data/babyNamesData.json";
 import { useState } from "react";
 
-function App(): JSX.Element {
+function App():JSX.Element{
   interface BabyNames {
     id: number;
     name: string;
