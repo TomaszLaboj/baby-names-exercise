@@ -1,42 +1,36 @@
 import "./myStyles.css";
 import names from "./data/babyNamesData.json";
 import { useState } from "react";
+import BabyNames from "./utils/BabyNames.js"
 
 
 function App():JSX.Element{
-  interface BabyNames {
-    id: number;
-    name: string;
-    sex: string;
-  }
-
+ 
   const babyNames: BabyNames[] = [];
 
   for (const element of names) {
     babyNames.push(element);
   }
-  let sortedNames: BabyNames[] = babyNames.sort((a, b) =>
+  const sortedNames: BabyNames[] = babyNames.sort((a, b) =>
     a.name > b.name ? 1 : -1
   );
-  let filteredNames:BabyNames[]= [];
-  function filterNames(textToFind:string): BabyNames[] {
-          filteredNames = sortedNames.filter((record)=>record.name.includes(textToFind))
-  return filteredNames;
-  }
+  function filterNames(textToFind:string,dataToFilter: BabyNames[]): BabyNames[] {
+    let filteredNames:BabyNames[]= [];
+        filteredNames = dataToFilter.filter((record)=>record.name.includes(textToFind))
+return filteredNames;
+}
 
+const [nameList, setNameList] = useState<BabyNames[]>([])
+const [text , setText] = useState('') // state for search bar
+const handleChoseName = (clickedName: BabyNames) => {
+  setNameList([...nameList,clickedName]);
+};
 
-  filterNames('');
-  sortedNames = filteredNames;
-  const [nameList, setNameList] = useState<BabyNames[]>([])
+const isMale = (checkSex: string) => {
+  return checkSex === "m" ? true : false;
+};
 
-  const handleChoseName = (clickedName: BabyNames) => {
-    setNameList([...nameList,clickedName]);
-  };
-
-  const isMale = (checkSex: string) => {
-    return checkSex === "m" ? true : false;
-  };
-
+const filteredNames: BabyNames[] = filterNames(text,sortedNames)
   return (
     <body>
       
@@ -53,12 +47,15 @@ function App():JSX.Element{
 
       <br></br>
 
-      <p className="main">  Filter: <SearchBar/> </p>
+      <p className="main">  Filter: <input value={text} onChange={(event) => {
+          setText(event.target.value);
+          
+        }}/></p>
       <br></br>
 
       <div className="main">
         All names:
-        {sortedNames.map((nameFromSorted) => {
+        {filteredNames.map((nameFromSorted) => {
           return (
             <button
               className={isMale(nameFromSorted.sex) ? "blue" : "pink"}
@@ -74,18 +71,6 @@ function App():JSX.Element{
   );
 }
 
-function SearchBar(): JSX.Element {
 
-  const [text , setText] = useState('')
-
-  
-
-  return (
-      <input value={text} onChange={(event) => {
-        setText(event.target.value);
-        
-      }}/>
-  ) 
-}
 
 export default App;
