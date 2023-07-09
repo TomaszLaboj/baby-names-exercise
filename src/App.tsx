@@ -1,14 +1,11 @@
 import "./myStyles.css";
 import names from "./data/babyNamesData.json";
 import { useState } from "react";
+import BabyNames from "./utils/BabyNames.js"
+
 
 function App():JSX.Element{
-  interface BabyNames {
-    id: number;
-    name: string;
-    sex: string;
-  }
-
+ 
   const babyNames: BabyNames[] = [];
 
   for (const element of names) {
@@ -17,19 +14,29 @@ function App():JSX.Element{
   const sortedNames: BabyNames[] = babyNames.sort((a, b) =>
     a.name > b.name ? 1 : -1
   );
-  
-  const [nameList, setNameList] = useState<BabyNames[]>([])
 
-  const handleChoseName = (clickedName: BabyNames) => {
-    setNameList([...nameList,clickedName]);
-  };
+  function filterNames(textToFind:string,dataToFilter: BabyNames[]): BabyNames[] {
+    let filteredNames:BabyNames[]= [];
+        filteredNames = dataToFilter.filter((record)=>record.name.toLowerCase().includes(textToFind.toLowerCase()))
+        
+return filteredNames;
+}
 
-  const isMale = (checkSex: string) => {
-    return checkSex === "m" ? true : false;
-  };
+const [nameList, setNameList] = useState<BabyNames[]>([])
+const [text , setText] = useState('') // state for search bar
+console.log(text)
+const handleChoseName = (clickedName: BabyNames) => {
+  setNameList([...nameList,clickedName]);
+};
 
+const isMale = (checkSex: string) => {
+  return checkSex === "m" ? true : false;
+};
+
+const filteredNames: BabyNames[] = filterNames(text,sortedNames)
   return (
     <body>
+      
       <div className="main">
         <>Chosen names:{nameList.map((chosenName) => {
         return (
@@ -43,9 +50,15 @@ function App():JSX.Element{
 
       <br></br>
 
+      <p className="main">  Filter: <input value={text} onChange={(event) => {
+          setText(event.target.value);
+          
+        }}/></p>
+      <br></br>
+
       <div className="main">
         All names:
-        {sortedNames.map((nameFromSorted) => {
+        {filteredNames.map((nameFromSorted) => {
           return (
             <button
               className={isMale(nameFromSorted.sex) ? "blue" : "pink"}
@@ -60,5 +73,7 @@ function App():JSX.Element{
     </body>
   );
 }
+
+
 
 export default App;
