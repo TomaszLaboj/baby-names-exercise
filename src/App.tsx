@@ -14,14 +14,17 @@ function App():JSX.Element{
   const sortedNames: BabyNames[] = babyNames.sort((a, b) =>
     a.name > b.name ? 1 : -1
   );
+
   function filterNames(textToFind:string,dataToFilter: BabyNames[]): BabyNames[] {
     let filteredNames:BabyNames[]= [];
-        filteredNames = dataToFilter.filter((record)=>record.name.includes(textToFind))
+        filteredNames = dataToFilter.filter((record)=>record.name.toLowerCase().includes(textToFind.toLowerCase()))
+        
 return filteredNames;
 }
 
 const [nameList, setNameList] = useState<BabyNames[]>([])
 const [text , setText] = useState('') // state for search bar
+console.log(text)
 const handleChoseName = (clickedName: BabyNames) => {
   setNameList([...nameList,clickedName]);
 };
