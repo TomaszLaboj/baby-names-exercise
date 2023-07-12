@@ -6,10 +6,20 @@ import BabyNames from "./utils/BabyNames.js"
 
 function App():JSX.Element{
  
-  const babyNames: BabyNames[] = names;
+ const babyNames: BabyNames[] = names.sort((a,b)=> (a>b)? 1: -1);
  const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
- const handleChooseName = (clickedName: BabyNames) => setChosenNames([...chosenNames,clickedName]) 
- const handleMoveBack = (clickedName:BabyNames) => chosenNames.filter((clickedName) => clickedName === )
+ const [allNames, setAllNames] = useState<BabyNames[]>(babyNames)
+
+ const handleChooseName = (clickedName: BabyNames) => {
+  setChosenNames([...chosenNames,clickedName]);
+  setAllNames(allNames.filter((obj)=> obj!== clickedName))
+} 
+
+ const handleMoveBack = (clickedName: BabyNames) => {
+  setAllNames([...allNames,clickedName]);
+  setChosenNames(chosenNames.filter((obj)=> obj !== clickedName))
+ }
+
   return (
     <div className="main">
       <p className="main">
@@ -18,7 +28,7 @@ function App():JSX.Element{
           <button
           onClick={()=>handleMoveBack(chosenName)}
           key={chosenName.id}
-          >
+          >{chosenName.name}
 
           </button>
         )
@@ -26,7 +36,7 @@ function App():JSX.Element{
       </p>
       <br/>
     All names:
-    {babyNames.map((babyName) => {
+    {allNames.map((babyName) => {
       return (
         <button
           
@@ -41,3 +51,4 @@ function App():JSX.Element{
     )
   }
 export default App;
+
