@@ -15,25 +15,45 @@ function App():JSX.Element{
     a.name > b.name ? 1 : -1
   );
 
-  function filterNames(textToFind:string,dataToFilter: BabyNames[]): BabyNames[] {
+  function filterNames(textToFind:string,
+                      dataToFilter: BabyNames[],
+                      listOfChosenNames: BabyNames[],
+                      ): BabyNames[] {
     let filteredNames:BabyNames[]= [];
         filteredNames = dataToFilter.filter((record)=>record.name.toLowerCase().includes(textToFind.toLowerCase()))
         
-return filteredNames;
-}
+  return filteredNames;
+  }
+  function filterDuplicates(arrayToFilter:BabyNames[], arrayToCompare:BabyNames[]):BabyNames[]{
+      for(const el of arrayToCompare){
+        for(let i=0;i<arrayToFilter.length;i++){
+          if(el === arrayToFilter[i]){
+            arrayToFilter = arrayToFilter.splice(i,1)
+            i = 0;
+          }
+        }
+      }
+    return arrayToFilter;
+  }
 
-const [nameList, setNameList] = useState<BabyNames[]>([])
-const [text , setText] = useState('') // state for search bar
+  function isMale(checkSex: string)  {
+    if(checkSex === "m"){
+      return true;
+    }
+    return false;
+  }
+  const [nameList, setNameList] = useState<BabyNames[]>([])
+  const [text , setText] = useState('') // state for search bar
 
-const handleChoseName = (clickedName: BabyNames) => {
-  setNameList([...nameList,clickedName]);
+  let filteredNames: BabyNames[] = filterNames(text,sortedNames, nameList)
+  filteredNames = filterDuplicates(filteredNames, nameList);  
+
+  const handleChoseName = (clickedName: BabyNames) => {
+    setNameList([...nameList,clickedName]);
+//  filteredNames.splice(filteredNames.indexOf(clickedName),1)
 };
 
-const isMale = (checkSex: string) => {
-  return checkSex === "m" ? true : false;
-};
 
-const filteredNames: BabyNames[] = filterNames(text,sortedNames)
   return (
     <body>
       
@@ -45,7 +65,9 @@ const filteredNames: BabyNames[] = filterNames(text,sortedNames)
               key={chosenName.id}
             >{chosenName.name}</button>
         )
-        })}</>
+        })}
+        {nameList.map((chosenName) => console.log(chosenName))}
+        </>
       </div>
 
       <br></br>
