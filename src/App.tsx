@@ -6,7 +6,7 @@ import BabyNames from "./utils/BabyNames.js"
 
 function App():JSX.Element{
  
- const babyNames: BabyNames[] = names.sort((a,b)=> (a>b)? 1: -1);
+ const babyNames: BabyNames[] = names.sort((a,b)=> a.name>b.name ? 1: -1);
  const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
  const [allNames, setAllNames] = useState<BabyNames[]>(babyNames)
 
@@ -16,10 +16,14 @@ function App():JSX.Element{
 } 
 
  const handleMoveBack = (clickedName: BabyNames) => {
-  setAllNames([...allNames,clickedName]);
+  setAllNames([...allNames,clickedName].sort((a,b)=> a.name>b.name ? 1: -1));
+  
   setChosenNames(chosenNames.filter((obj)=> obj !== clickedName))
  }
+ function sortingNames(arrayNames:BabyNames[]):BabyNames[]{
 
+  return arrayNames.sort((a,b)=> a.name>b.name?1:-1);
+ }
   return (
     <div className="main">
       <p className="main">
