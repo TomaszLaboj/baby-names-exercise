@@ -7,16 +7,27 @@ import BabyNames from "./utils/BabyNames.js"
 function App():JSX.Element{
  
   const babyNames: BabyNames[] = names;
-
-  
+ const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
+ const handleChooseName = () => setChosenNames(...chosenNames,babyName.name) 
   return (
-    <body>
-     <p>{babyNames.map((name)=><button id={name.name}>{name.name} key={name.id}</button>)}</p>
-      
-    </body>
-  );
-}
-
-
-
+    <div className="main">
+      <p className="main">
+      Chosen names:
+      </p>
+      <br/>
+    All names:
+    {babyNames.map((babyName) => {
+      return (
+        <button
+          
+          onClick={handleChooseName}
+          key={babyName.id}
+        >
+          {babyName.name}
+        </button>
+      )
+    })}
+      </div>
+    )
+  }
 export default App;
