@@ -24,7 +24,7 @@ return filteredNames;
 
 const [nameList, setNameList] = useState<BabyNames[]>([])
 const [text , setText] = useState('') // state for search bar
-console.log(text)
+
 const handleChoseName = (clickedName: BabyNames) => {
   setNameList([...nameList,clickedName]);
 };
