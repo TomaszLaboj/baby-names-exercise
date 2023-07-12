@@ -8,11 +8,21 @@ function App():JSX.Element{
  
   const babyNames: BabyNames[] = names;
  const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
- const handleChooseName = () => setChosenNames(...chosenNames,babyName.name) 
+ const handleChooseName = (clickedName: BabyNames) => setChosenNames([...chosenNames,clickedName]) 
+ const handleMoveBack = (clickedName:BabyNames) => chosenNames.filter((clickedName) => clickedName === )
   return (
     <div className="main">
       <p className="main">
-      Chosen names:
+      Chosen names:{chosenNames.map((chosenName) => {
+        return (
+          <button
+          onClick={()=>handleMoveBack(chosenName)}
+          key={chosenName.id}
+          >
+
+          </button>
+        )
+      })}
       </p>
       <br/>
     All names:
@@ -20,7 +30,7 @@ function App():JSX.Element{
       return (
         <button
           
-          onClick={handleChooseName}
+          onClick={()=>handleChooseName(babyName)}
           key={babyName.id}
         >
           {babyName.name}
