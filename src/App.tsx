@@ -20,10 +20,10 @@ function App():JSX.Element{
     setAllNames(babyNames)
   }
   const handleFemaleNames = () => {
-    setAllNames(allNames.filter((obj) => obj.sex == 'f'))
+    setAllNames(allNames.filter((obj) => obj.sex === 'f'))
   }
   const handleMaleNames = () => {
-    setAllNames(allNames.filter((obj) => obj.sex == 'm'))
+    setAllNames(allNames.filter((obj) => obj.sex === 'm'))
   }
   const handleChooseName = (clickedName: BabyNames) => {
     setChosenNames([...chosenNames,clickedName]);
