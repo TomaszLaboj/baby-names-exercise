@@ -16,6 +16,15 @@ function App():JSX.Element{
     setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))) 
   },[text, babyNames]);
 
+  const handleAllNames = () => {
+    setAllNames(babyNames)
+  }
+  const handleFemaleNames = () => {
+    setAllNames(allNames.filter((obj) => obj.sex == 'f'))
+  }
+  const handleMaleNames = () => {
+    setAllNames(allNames.filter((obj) => obj.sex == 'm'))
+  }
   const handleChooseName = (clickedName: BabyNames) => {
     setChosenNames([...chosenNames,clickedName]);
     setAllNames(allNames.filter((obj)=> obj!== clickedName))
@@ -51,9 +60,9 @@ function App():JSX.Element{
       <p className="main">  Filter: <input value={text} onChange={(event) => {
           setText(event.target.value);  
         }}/>
-        <button className="all">All names</button>
-        <button className="pink">Female names</button>
-        <button className="blue">Male names</button>
+        <button className="all" onClick={handleAllNames}>All names</button>
+        <button className="pink" onClick={handleFemaleNames}>Female names</button>
+        <button className="blue" onClick={handleMaleNames}>Male names</button>
       </p>
         
       <br></br> 
