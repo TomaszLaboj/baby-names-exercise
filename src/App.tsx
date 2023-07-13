@@ -14,8 +14,8 @@ function App():JSX.Element{
 
 
  useEffect(() => {  
-   setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))); 
-},[text]);
+   setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))) 
+},[text, babyNames]);
 const handleChooseName = (clickedName: BabyNames) => {
   setChosenNames([...chosenNames,clickedName]);
   setAllNames(allNames.filter((obj)=> obj!== clickedName))
