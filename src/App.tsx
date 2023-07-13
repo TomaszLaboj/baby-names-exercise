@@ -6,29 +6,28 @@ import BabyNames from "./utils/BabyNames.js"
 
 function App():JSX.Element{
  
- const babyNames: BabyNames[] = names.sort((a,b)=> a.name>b.name ? 1: -1);
+  const babyNames: BabyNames[] = names.sort((a,b)=> a.name>b.name ? 1: -1);
 
- const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
- const [allNames, setAllNames] = useState<BabyNames[]>(babyNames)
- const [text , setText] = useState('') // state for search bar
+  const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
+  const [allNames, setAllNames] = useState<BabyNames[]>(babyNames)
+  const [text , setText] = useState('') // state for search bar
 
+  useEffect(() => {  
+    setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))) 
+  },[text, babyNames]);
 
- useEffect(() => {  
-   setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))) 
-},[text, babyNames]);
-const handleChooseName = (clickedName: BabyNames) => {
-  setChosenNames([...chosenNames,clickedName]);
-  setAllNames(allNames.filter((obj)=> obj!== clickedName))
-} 
-const handleMoveBack = (clickedName: BabyNames) => {
-  setAllNames([...allNames,clickedName].sort((a,b)=> a.name>b.name ? 1: -1));
-  setChosenNames(chosenNames.filter((obj)=> obj !== clickedName))
-}
+  const handleChooseName = (clickedName: BabyNames) => {
+    setChosenNames([...chosenNames,clickedName]);
+    setAllNames(allNames.filter((obj)=> obj!== clickedName))
+  } 
+  const handleMoveBack = (clickedName: BabyNames) => {
+    setAllNames([...allNames,clickedName].sort((a,b)=> a.name>b.name ? 1: -1));
+    setChosenNames(chosenNames.filter((obj)=> obj !== clickedName))
+  }
 
-
- const isMale = (checkSex: string) => {
-  return checkSex === "m" ? true : false;
-};
+  const isMale = (checkSex: string) => {
+    return checkSex === "m" ? true : false;
+  };
 
   return (
     <body>
@@ -50,9 +49,13 @@ const handleMoveBack = (clickedName: BabyNames) => {
       </div>
         <br/>
       <p className="main">  Filter: <input value={text} onChange={(event) => {
-          setText(event.target.value);
-          
-        }}/></p>
+          setText(event.target.value);  
+        }}/>
+        <button className="all">All names</button>
+        <button className="pink">Female names</button>
+        <button className="blue">Male names</button>
+      </p>
+        
       <br></br> 
       <div className="main">
       All names:
