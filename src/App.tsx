@@ -11,19 +11,31 @@ function App():JSX.Element{
   const [chosenNames,setChosenNames] = useState<BabyNames[]>([])
   const [allNames, setAllNames] = useState<BabyNames[]>(babyNames)
   const [text , setText] = useState('') // state for search bar
-
+  
+  
   useEffect(() => {  
     setAllNames(babyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))) 
   },[text, babyNames]);
 
   const handleAllNames = () => {
-    setAllNames(babyNames)
+    const tempBabyNames:BabyNames[] = babyNames.filter(function(el){
+      return !chosenNames.includes(el)
+    })
+    setAllNames(tempBabyNames);
   }
   const handleFemaleNames = () => {
-    setAllNames(allNames.filter((obj) => obj.sex === 'f'))
+    let tempBabyNames:BabyNames[] = babyNames.filter(function(el){
+      return !chosenNames.includes(el)
+    })
+    tempBabyNames = tempBabyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))
+     setAllNames(tempBabyNames.filter((obj) => obj.sex === 'f'))
   }
   const handleMaleNames = () => {
-    setAllNames(allNames.filter((obj) => obj.sex === 'm'))
+    let tempBabyNames:BabyNames[] = babyNames.filter(function(el){      
+      return !chosenNames.includes(el)
+    })
+    tempBabyNames = tempBabyNames.filter((names)=>names.name.toLowerCase().includes(text.toLowerCase()))
+    setAllNames(tempBabyNames.filter((obj) => obj.sex === 'm'))
   }
   const handleChooseName = (clickedName: BabyNames) => {
     setChosenNames([...chosenNames,clickedName]);
@@ -32,6 +44,17 @@ function App():JSX.Element{
   const handleMoveBack = (clickedName: BabyNames) => {
     setAllNames([...allNames,clickedName].sort((a,b)=> a.name>b.name ? 1: -1));
     setChosenNames(chosenNames.filter((obj)=> obj !== clickedName))
+  }
+
+  const handleReset = () => {
+    const tempChosenNames = chosenNames;
+    let tempAllNames = allNames;
+    tempChosenNames.map ((el) => tempAllNames.push(el));
+    tempAllNames = tempAllNames.sort((a,b)=> a.name>b.name ? 1: -1)
+    setAllNames(tempAllNames);
+    setChosenNames([]);
+    
+
   }
 
   const isMale = (checkSex: string) => {
@@ -56,12 +79,26 @@ function App():JSX.Element{
         })}
         </>
       </div>
+      <> 
+        Reset names:
+            <button className="all" onClick={handleReset}>{
+            (chosenNames.some((el)=> el.name === "Adam"))&&
+            (chosenNames.some((el)=> el.name === "Ela"))&&
+            (chosenNames.some((el)=> el.name === "Tomasz"))
+             ? "💗":"Reset"
+            }
+            </button>
+          
+        
+        </>
         <br/>
       <p className="main">  Filter: <input value={text} onChange={(event) => {
           setText(event.target.value);  
         }}/>
         <button className="all" onClick={handleAllNames}>All names</button>
+
         <button className="pink" onClick={handleFemaleNames}>Female names</button>
+
         <button className="blue" onClick={handleMaleNames}>Male names</button>
       </p>
         
